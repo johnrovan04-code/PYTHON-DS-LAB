@@ -1,0 +1,201 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/johnrovan04-code/PYTHON-DS-LAB/blob/main/5)%20Implementation%20of%20Stack%20Operations%20\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "id": "ajZVI2Vzi1id"
+      },
+      "outputs": [],
+      "source": [
+        "class Conversion:\n",
+        "\n",
+        "    def __init__(self, capacity):\n",
+        "        self.top = -1\n",
+        "        self.capacity = capacity\n",
+        "        self.array = []\n",
+        "        self.output = []\n",
+        "\n",
+        "        self.precedence = {\n",
+        "            '+': 1,\n",
+        "            '-': 1,\n",
+        "            '*': 2,\n",
+        "            '/': 2,\n",
+        "            '^': 3\n",
+        "        }\n",
+        "\n",
+        "    def isEmpty(self):\n",
+        "        return True if self.top == -1 else False\n",
+        "\n",
+        "    def peek(self):\n",
+        "        return self.array[-1]\n",
+        "\n",
+        "    def pop(self):\n",
+        "        if not self.isEmpty():\n",
+        "            self.top -= 1\n",
+        "            return self.array.pop()\n",
+        "        else:\n",
+        "            return \"$\"\n",
+        "\n",
+        "    def push(self, op):\n",
+        "        self.top += 1\n",
+        "        self.array.append(op)\n",
+        "\n",
+        "    def isOperand(self, ch):\n",
+        "        return ch.isalpha()\n",
+        "\n",
+        "    def notGreater(self, i):\n",
+        "        try:\n",
+        "            a = self.precedence[i]\n",
+        "            b = self.precedence[self.peek()]\n",
+        "\n",
+        "            return True if a <= b else False\n",
+        "\n",
+        "        except KeyError:\n",
+        "            return False\n",
+        "\n",
+        "    def infixToPostfix(self, exp):\n",
+        "\n",
+        "        for i in exp:\n",
+        "\n",
+        "            if self.isOperand(i):\n",
+        "                self.output.append(i)\n",
+        "\n",
+        "\n",
+        "            elif i == '(':\n",
+        "                self.push(i)\n",
+        "\n",
+        "            # If closing parenthesis\n",
+        "            elif i == ')':\n",
+        "\n",
+        "                while not self.isEmpty() and self.peek() != '(':\n",
+        "                    a = self.pop()\n",
+        "                    self.output.append(a)\n",
+        "\n",
+        "                if not self.isEmpty() and self.peek() == '(':\n",
+        "                    self.pop()\n",
+        "                else:\n",
+        "                    return -1\n",
+        "\n",
+        "            # If operator\n",
+        "            else:\n",
+        "\n",
+        "                while (\n",
+        "                    not self.isEmpty()\n",
+        "                    and self.notGreater(i)\n",
+        "                ):\n",
+        "                    self.output.append(self.pop())\n",
+        "\n",
+        "                self.push(i)\n",
+        "\n",
+        "        while not self.isEmpty():\n",
+        "            self.output.append(self.pop())\n",
+        "\n",
+        "        print(\"Postfix expression:\", \"\".join(self.output))\n",
+        "\n",
+        "\n",
+        "\n",
+        "exp = \"a+b*(c^d-e)^(f+g*h)-i\"\n",
+        "\n",
+        "obj = Conversion(len(exp))\n",
+        "\n",
+        "obj.infixToPostfix(exp)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "class Evaluate:\n",
+        "\n",
+        "    def __init__(self, capacity):\n",
+        "        self.top = -1\n",
+        "        self.capacity = capacity\n",
+        "\n",
+        "        # This array is used as a stack\n",
+        "        self.array = []\n",
+        "\n",
+        "    def isEmpty(self):\n",
+        "        return True if self.top == -1 else False\n",
+        "\n",
+        "    def peek(self):\n",
+        "        return self.array[-1]\n",
+        "\n",
+        "    def pop(self):\n",
+        "        if not self.isEmpty():\n",
+        "            self.top -= 1\n",
+        "            return self.array.pop()\n",
+        "        else:\n",
+        "            return \"$\"\n",
+        "\n",
+        "    def push(self, op):\n",
+        "        self.top += 1\n",
+        "        self.array.append(op)\n",
+        "\n",
+        "    def evaluatePostfix(self, exp):\n",
+        "\n",
+        "        for i in exp:\n",
+        "\n",
+        "            if i.isdigit():\n",
+        "                self.push(i)\n",
+        "\n",
+        "            else:\n",
+        "                val1 = self.pop()\n",
+        "                val2 = self.pop()\n",
+        "\n",
+        "                self.push(str(eval(val2 + i + val1)))\n",
+        "\n",
+        "        return int(self.pop())\n",
+        "\n",
+        "\n",
+        "# Driver code\n",
+        "exp = \"231*+9-\"\n",
+        "\n",
+        "obj = Evaluate(len(exp))\n",
+        "\n",
+        "print(\"postfix evaluation: %d\" % obj.evaluatePostfix(exp))"
+      ],
+      "metadata": {
+        "id": "g-1iBx6NCGcR",
+        "outputId": "2af58fc4-933d-495a-a811-9d45b68cd2ac",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "postfix evaluation: -4\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
