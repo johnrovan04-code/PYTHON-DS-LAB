@@ -1,0 +1,108 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNRC8UP3wgAy687D3B8V7cc",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/johnrovan04-code/PYTHON-DS-LAB/blob/main/%206)Queue%20implementation%20using%20a%20linked%20list\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 1,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "oUNHcS2sEDUq",
+        "outputId": "332a1ab0-10b5-4b1a-b084-68dd4d6b8f02"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Dequeued item is 30\n"
+          ]
+        }
+      ],
+      "source": [
+        "class Node:\n",
+        "\n",
+        "    def __init__(self, data):\n",
+        "        self.data = data\n",
+        "        self.next = None\n",
+        "\n",
+        "\n",
+        "class Queue:\n",
+        "\n",
+        "    def __init__(self):\n",
+        "        self.front = self.rear = None\n",
+        "\n",
+        "    def isEmpty(self):\n",
+        "        return self.front == None\n",
+        "\n",
+        "    def EnQueue(self, item):\n",
+        "        temp = Node(item)\n",
+        "\n",
+        "        if self.rear == None:\n",
+        "            self.front = self.rear = temp\n",
+        "            return\n",
+        "\n",
+        "        self.rear.next = temp\n",
+        "        self.rear = temp\n",
+        "\n",
+        "    def DeQueue(self):\n",
+        "\n",
+        "        if self.isEmpty():\n",
+        "            return\n",
+        "\n",
+        "        temp = self.front\n",
+        "        self.front = temp.next\n",
+        "\n",
+        "        if self.front == None:\n",
+        "            self.rear = None\n",
+        "\n",
+        "        return temp.data\n",
+        "\n",
+        "\n",
+        "# Main program\n",
+        "if __name__ == \"__main__\":\n",
+        "\n",
+        "    q = Queue()\n",
+        "\n",
+        "    q.EnQueue(10)\n",
+        "    q.EnQueue(20)\n",
+        "    q.EnQueue(30)\n",
+        "\n",
+        "    q.DeQueue()\n",
+        "    q.DeQueue()\n",
+        "\n",
+        "    q.EnQueue(30)\n",
+        "    q.EnQueue(40)\n",
+        "    q.EnQueue(50)\n",
+        "\n",
+        "    print(\"Dequeued item is \" + str(q.DeQueue()))"
+      ]
+    }
+  ]
+}
