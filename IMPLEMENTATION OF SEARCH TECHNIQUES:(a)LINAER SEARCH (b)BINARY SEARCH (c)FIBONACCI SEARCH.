@@ -1,0 +1,159 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyOSyKUEjl9U75UKHVG5v9YX",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/johnrovan04-code/PYTHON-DS-LAB/blob/main/IMPLEMENTATION%20OF%20SEARCH%20TECHNIQUES%3A(a)LINAER%20SEARCH%20(b)BINARY%20SEARCH%20(c)FIBONACCI%20SEARCH.\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "SxU_YoOgZGu5",
+        "outputId": "fe773606-d283-4ea9-a5ed-d2b63def5356"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Element is present at index 3\n"
+          ]
+        }
+      ],
+      "source": [
+        "def search(arr, n, x):\n",
+        "    for i in range(0, n):\n",
+        "        if (arr[i] == x):\n",
+        "            return i\n",
+        "    return -1\n",
+        "\n",
+        "arr = [2, 3, 4, 10, 40]\n",
+        "x = 10\n",
+        "n = len(arr)\n",
+        "result = search(arr, n, x)\n",
+        "if(result == -1):\n",
+        "    print(\"Element is not present in array\")\n",
+        "else:\n",
+        "    print(\"Element is present at index\", result)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def binarySearch(arr, l, r, x):\n",
+        "    if r >= l:\n",
+        "        mid = l + (r - l) // 2\n",
+        "        midd = int(mid)\n",
+        "        if arr[midd] == x:\n",
+        "            return midd\n",
+        "        elif arr[midd] > x:\n",
+        "            return binarySearch(arr, l, midd - 1, x)\n",
+        "        else:\n",
+        "            return binarySearch(arr, midd + 1, r, x)\n",
+        "    return -1\n",
+        "\n",
+        "arr = [2, 3, 4, 10, 40]\n",
+        "x = 10\n",
+        "result = binarySearch(arr, 0, len(arr) - 1, x)\n",
+        "if result != -1:\n",
+        "    print(\"Element is present at index %d\" % result)\n",
+        "else:\n",
+        "    print(\"Element is not present in array\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "TzrdFxLNZe6x",
+        "outputId": "7aa8c359-b5b5-4883-ea5f-546d2fbf663b"
+      },
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Element is present at index 3\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def fibMonaccianSearch(arr, x, n):\n",
+        "    fibMMm2 = 0\n",
+        "    fibMMm1 = 1\n",
+        "    fibM = fibMMm2 + fibMMm1\n",
+        "    while (fibM < n):\n",
+        "        fibMMm2 = fibMMm1\n",
+        "        fibMMm1 = fibM\n",
+        "        fibM = fibMMm2 + fibMMm1\n",
+        "    offset = -1\n",
+        "    while (fibM > 1):\n",
+        "        i = min(offset + fibMMm2, n - 1)\n",
+        "        if (arr[i] < x):\n",
+        "            fibM = fibMMm1\n",
+        "            fibMMm1 = fibMMm2\n",
+        "            fibMMm2 = fibM - fibMMm1\n",
+        "            offset = i\n",
+        "        elif (arr[i] > x):\n",
+        "            fibM = fibMMm2\n",
+        "            fibMMm1 = fibMMm1 - fibMMm2\n",
+        "            fibMMm2 = fibM - fibMMm1\n",
+        "        else:\n",
+        "            return i\n",
+        "    if(fibMMm1 and arr[offset + 1] == x):\n",
+        "        return offset + 1\n",
+        "    return -1\n",
+        "\n",
+        "arr = [10, 22, 35, 40, 45, 50, 80, 82, 85, 90, 100]\n",
+        "n = len(arr)\n",
+        "x = 85\n",
+        "print(\"Found at index:\", fibMonaccianSearch(arr, x, n))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "UrqiLM1ZaGV1",
+        "outputId": "99bd172e-77f6-4053-f778-21059dc83faf"
+      },
+      "execution_count": 7,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Found at index: 8\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
